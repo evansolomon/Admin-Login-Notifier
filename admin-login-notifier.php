@@ -16,6 +16,9 @@ function admin_login_notifier( $null, $username, $password ) {
 	$alerts[] = array( 'time' => time(), 'password' => $password );
 	update_option( 'aln_login_attempts', $alerts );
 
+	$attempts_since_viewed = (int) get_option( 'aln_login_attempts_since_viewed' );
+	update_option( 'aln_login_attempts_since_viewed', ++$attempts_since_viewed );
+
 	// Okay, carry on with the login attempt
 	return $null;
 }
@@ -34,6 +37,7 @@ function aln_submenu_ui() {
 	// Page header
 	echo sprintf( '<div id="admin-login-notifier" class="wrap">%s<h2>%s</h2></div>', get_screen_icon( 'tools' ), esc_html( $title ) );
 
+	update_option( 'aln_login_attempts_since_viewed', 0 );
 	$alerts = get_option( 'aln_login_attempts' );
 	if ( !$alerts || !is_array( $alerts ) )
 		return;
