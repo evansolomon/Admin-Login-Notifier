@@ -76,6 +76,9 @@ function aln_send_daily_email() {
 				$new_attempts[] = $attempt['password'];
 	}
 
+	if( ! $new_attempts )
+		return;
+
 	// Who should we tell?
 	$user_args = array(
 		'role'   => 'administrator',
