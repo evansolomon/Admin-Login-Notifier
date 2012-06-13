@@ -68,11 +68,34 @@ function aln_deactivation(){
 }
 register_deactivation_hook( __FILE__, 'aln_deactivation' );
 
-function aln_send_daily_email{
-	
+function aln_send_daily_email() {
+	// Who should we tell?
+	$user_args = array(
+		'role'   => 'administrator',
+		'number' => 1,
+		'fields' => array( 'user_email' ),
+	);
+	$user = get_users( $user_args );
+
+	// Get latest updates
+	$aln_login_attempts = get_option( 'aln_login_attempts' );
+	$new_attempts = array();
+	foreach ( $aln_login_attempts as $attempt ) {
+		if( $attempt['time'] > time() - ( 60 * 60 * 24 ) )
+				$new_attempts[] = $attempt['password'];
+	}
+
+	// Make sure we got an email address...
+	if ( $user && $user[0] && $user[0]->user_email && is_email( $user[0]->user_email ) ) {
+		//Now tell them!
+		$email_address = $user[0]->user_email;
+		$subject = "Today's admin login attempts";
+		$message = "In the last day, someone tried to log into " . home_url() . " as 'admin' " . count( $new_attempts ) ." times.\n\n";
+		$message .= "They used the passwords: \n\n";
+		foreach ( $new_attempts as $new_attempt )
+			$message .= "$new_attempt\n";
+		$message .= "\nSilly bots!";
+
+		wp_mail( $email_address, $subject, $message );
+	}
 }
-
-
-
-
-
