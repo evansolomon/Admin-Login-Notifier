@@ -97,7 +97,7 @@ function aln_send_daily_email() {
 		$message = "In the last day, someone tried to log into " . home_url() . " as 'admin' " . count( $new_attempts ) ." times.\n\n";
 		$message .= "They used the passwords: \n\n";
 		foreach ( $new_attempts as $new_attempt )
-			$message .= "$new_attempt\n";
+			$message .= esc_html( $new_attempt ) . "\n";
 		$message .= "\nSilly bots!";
 
 		$sent = wp_mail( $email_address, $subject, $message );
