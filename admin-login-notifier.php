@@ -61,7 +61,6 @@ function aln_activation() {
 	wp_schedule_event( current_time( 'timestamp' ), 'daily',  'aln_send_daily_email' );
 }
 register_activation_hook( __FILE__, 'aln_activation' );
-add_action( 'aln_send_daily_email', 'aln_send_daily_email' );
 
 function aln_deactivation(){
 	wp_clear_scheduled_hook( 'aln_send_daily_email' );
@@ -99,3 +98,4 @@ function aln_send_daily_email() {
 		wp_mail( $email_address, $subject, $message );
 	}
 }
+add_action( 'aln_send_daily_email', 'aln_send_daily_email' );
