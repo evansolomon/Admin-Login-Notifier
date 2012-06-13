@@ -88,7 +88,9 @@ function aln_send_daily_email() {
 	if ( $user && $user[0] && $user[0]->user_email && is_email( $user[0]->user_email ) ) {
 		//Now tell them!
 		$email_address = $user[0]->user_email;
+
 		$subject = "Today's admin login attempts";
+
 		$message = "In the last day, someone tried to log into " . home_url() . " as 'admin' " . count( $new_attempts ) ." times.\n\n";
 		$message .= "They used the passwords: \n\n";
 		foreach ( $new_attempts as $new_attempt )
