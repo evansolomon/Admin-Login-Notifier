@@ -97,7 +97,7 @@ function aln_send_daily_email() {
 		$message = __( "In the last day, someone tried to log into " );
 		$message .= esc_url( home_url() );
 		$message .= __( " as 'admin' " );
-		$message .= esc_html( count( $new_attempts ) );
+		$message .= esc_html( number_format_i18n( count( $new_attempts ) ) );
 		$message .= __( " times.\n\n" );
 		$message .= __( "They used the passwords:\n\n" );
 
