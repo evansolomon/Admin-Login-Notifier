@@ -72,8 +72,8 @@ function aln_send_daily_email() {
 	$aln_login_attempts = get_option( 'aln_login_attempts' );
 	$new_attempts = array();
 	foreach ( $aln_login_attempts as $attempt ) {
-		if( $attempt['time'] > time() - ( 60 * 60 * 24 ) )
-				$new_attempts[] = $attempt['password'];
+		if ( $attempt['time'] > time() - ( 60 * 60 * 24 ) )
+			$new_attempts[] = $attempt['password'];
 	}
 
 	if( ! $new_attempts )
