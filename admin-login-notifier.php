@@ -27,14 +27,21 @@ function admin_login_notifier( $null, $username, $password ) {
 add_filter( 'authenticate', 'admin_login_notifier', 10, 3 );
 
 function aln_submenu() {
-	add_submenu_page( 'tools.php', __( 'Admin Login Notifier' ), __( 'Admin Login Notifier' ), 'manage_options', 'admin-login-notifier', 'aln_submenu_ui' );
+	add_submenu_page(
+		'tools.php',
+		esc_html( __( 'Admin Login Notifier' ) ),
+		esc_html( __( 'Admin Login Notifier' ) ),
+		'manage_options',
+		'admin-login-notifier',
+		'aln_submenu_ui'
+	);
 }
 add_action( 'admin_menu', 'aln_submenu' );
 
 function aln_submenu_ui() {
 	global $title;
 	if ( !current_user_can( apply_filters( 'aln_cap_level', 'manage_options' ) ) )
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+		wp_die( esc_html( __( 'You do not have sufficient permissions to access this page.' ) ) );
 
 	// Reset the counter of failed attempts
 	update_option( 'aln_login_attempts_since_viewed', 0 );
@@ -48,7 +55,11 @@ function aln_submenu_ui() {
 		return;
 
 	echo '<table>';
-	echo sprintf( '<tr><th>%s</th><th>%s</th></tr>', __( 'Date' ), __( 'Password' ) );
+	echo sprintf(
+		'<tr><th>%s</th><th>%s</th></tr>',
+		esc_html( __( 'Date' ) ),
+		esc_html( __( 'Password' ) )
+	);
 	foreach ( $alerts as $alert ) {
 		if ( !$alert )
 			continue;
@@ -92,23 +103,24 @@ function aln_send_daily_email() {
 		//Now tell them!
 		$email_address = apply_filters( 'aln_send_daily_email_address', $user[0]->user_email );
 
-		$subject = apply_filters( 'aln_send_daily_email_subject', __( "Today's admin login attempts" ) );
+		$subject = apply_filters( 'aln_send_daily_email_subject', esc_html( __( "Today's admin login attempts" ) ) );
 
-		$message = sprintf( __( 'In the last day, someone tried to log into %1$s as "admin" %2$d %3$s.' ),
+		$message = sprintf(
+			esc_html( __( 'In the last day, someone tried to log into %1$s as "admin" %2$d %3$s.' ) ),
 			esc_url( home_url() ),
 			number_format_i18n( count( $new_attempts ) ),
 			_n( 'time', 'times', count( $new_attempts ) )
 		);
 		$message .= "\n\n";
 
-		$message .= __( "They used the passwords:" );
+		$message .= esc_html( __( "They used the passwords:" ) );
 		$message .= "\n\n";
 
 		foreach ( $new_attempts as $new_attempt )
 			$message .= esc_html( $new_attempt ) . "\n";
 
 		$message .= "\n";
-		$message .= __( "Silly bots!" );
+		$message .= esc_html( __( "Silly bots!" ) );
 		$message = apply_filters( 'aln_send_daily_email_message', $message );
 
 		$sent = wp_mail( $email_address, $subject, $message );
