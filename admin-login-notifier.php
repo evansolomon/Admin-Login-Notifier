@@ -40,7 +40,8 @@ add_action( 'admin_menu', 'aln_submenu' );
 
 function aln_submenu_ui() {
 	global $title;
-	if ( !current_user_can( apply_filters( 'aln_cap_level', 'manage_options' ) ) )
+
+	if ( ! current_user_can( apply_filters( 'aln_cap_level', 'manage_options' ) ) )
 		wp_die( esc_html( __( 'You do not have sufficient permissions to access this page.' ) ) );
 
 	// Reset the counter of failed attempts
@@ -51,7 +52,7 @@ function aln_submenu_ui() {
 
 	// Show login attempts
 	$alerts = get_option( 'aln_login_attempts' );
-	if ( !$alerts || !is_array( $alerts ) )
+	if ( ! $alerts || ! is_array( $alerts ) )
 		return;
 
 	echo '<table>';
@@ -61,7 +62,7 @@ function aln_submenu_ui() {
 		esc_html( __( 'Password' ) )
 	);
 	foreach ( $alerts as $alert ) {
-		if ( !$alert )
+		if ( ! $alert )
 			continue;
 		echo sprintf( '<tr><td>%s</td><td style="padding-left:30px;">%s</td></tr>', date( 'M d, Y', $alert['time'] ), esc_html( $alert['password'] ) );
 	}
