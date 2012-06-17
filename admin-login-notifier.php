@@ -9,6 +9,8 @@ Version: 2
 */
 
 class Admin_Login_Notifier {
+
+	// Setup hooks
 	function __construct() {
 		// (De)Activation hooks
 		register_activation_hook(   __FILE__, array( $this, 'schedule_cron' ) );
@@ -20,6 +22,7 @@ class Admin_Login_Notifier {
 		add_action( 'aln_send_daily_email', array( $this, 'aln_send_daily_email' ), 10, 0 );
 	}
 
+	// Check each login attempt to see if it's for the 'admin' user
 	function check_login_attempt( $null, $username, $password ) {
 		// Did someone try to log in as admin?
 		if ( apply_filters( 'aln_username', 'admin' ) != $username )
@@ -38,6 +41,7 @@ class Admin_Login_Notifier {
 		return $null;
 	}
 
+	// Register the plugin's menu under the Tools panel
 	function submenu() {
 		$submenu_hookname = add_submenu_page(
 			'tools.php',
@@ -51,6 +55,7 @@ class Admin_Login_Notifier {
 		return $submenu_hookname;
 	}
 
+	// Build the menu UI
 	function submenu_ui() {
 		global $title;
 
@@ -86,15 +91,18 @@ class Admin_Login_Notifier {
 		return true;
 	}
 
+	// Schedule daily emails to be sent when there are new login attempts
 	function schedule_cron() {
 		return wp_schedule_event( current_time( 'timestamp' ), 'daily',  'aln_send_daily_email' );
 	}
 
+	// Remove the scheduled daily email
 	function clear_cron() {
 		// wp_clean_scheduled_hook() doesn't return a meaningful value, so neither does this function
 		wp_clear_scheduled_hook( 'aln_send_daily_email' );
 	}
 
+	// Send an email with the last day's attempts
 	function aln_send_daily_email() {
 		// Get latest updates
 		$aln_login_attempts = get_option( 'aln_login_attempts' );
