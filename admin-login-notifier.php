@@ -48,7 +48,7 @@ function aln_submenu_ui() {
 		return;
 
 	echo '<table>';
-	echo '<tr><th>Date</th><th>Password</th></tr>';
+	echo sprintf( '<tr><th>%s</th><th>%s</th></tr>', __( 'Date' ), __( 'Password' ) );
 	foreach ( $alerts as $alert ) {
 		if ( !$alert )
 			continue;
