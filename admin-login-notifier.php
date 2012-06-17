@@ -11,8 +11,8 @@ Version: 2
 class Admin_Login_Notifier {
 	function __construct() {
 		// (De)Activation hooks
-		register_activation_hook(   __FILE__, array( $this, 'activation'   ) );
-		register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
+		register_activation_hook(   __FILE__, array( $this, 'schedule_cron' ) );
+		register_deactivation_hook( __FILE__, array( $this, 'clear_cron'    ) );
 
 		// Hooks
 		add_filter( 'authenticate'        , array( $this, 'check_login_attempt' ) , 10, 3 );
@@ -86,11 +86,11 @@ class Admin_Login_Notifier {
 		return true;
 	}
 
-	function activation() {
+	function schedule_cron() {
 		return wp_schedule_event( current_time( 'timestamp' ), 'daily',  'aln_send_daily_email' );
 	}
 
-	function deactivation() {
+	function clear_cron() {
 		// wp_clean_scheduled_hook() doesn't return a meaningful value, so neither does this function
 		wp_clear_scheduled_hook( 'aln_send_daily_email' );
 	}
