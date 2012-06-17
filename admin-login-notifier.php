@@ -61,11 +61,13 @@ function aln_submenu_ui() {
 		esc_html( __( 'Date' ) ),
 		esc_html( __( 'Password' ) )
 	);
+
 	foreach ( $alerts as $alert ) {
 		if ( ! $alert )
 			continue;
 		echo sprintf( '<tr><td>%s</td><td style="padding-left:30px;">%s</td></tr>', date( 'M d, Y', $alert['time'] ), esc_html( $alert['password'] ) );
 	}
+
 	echo '</table>';
 }
 
