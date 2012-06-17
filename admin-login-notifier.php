@@ -151,3 +151,5 @@ class Admin_Login_Notifier {
 		return true;
 	}
 }
+
+$admin_login_notifier = new Admin_Login_Notifier;
