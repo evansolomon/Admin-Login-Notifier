@@ -34,7 +34,7 @@ add_action( 'admin_menu', 'aln_submenu' );
 function aln_submenu_ui() {
 	global $title;
 	if ( !current_user_can( apply_filters( 'aln_cap_level', 'manage_options' ) ) )
-		wp_die( 'You do not have sufficient permissions to access this page.' );
+		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 
 	// Reset the counter of failed attempts
 	update_option( 'aln_login_attempts_since_viewed', 0 );
