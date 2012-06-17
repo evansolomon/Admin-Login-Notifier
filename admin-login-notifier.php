@@ -8,7 +8,7 @@ License: GPLv2 or later
 */
 
 function admin_login_notifier( $null, $username, $password ) {
-	// Did someone try to log in with admin?
+	// Did someone try to log in as admin?
 	if ( apply_filters( 'aln_username', 'admin' ) != $username )
 		return $null;
 
