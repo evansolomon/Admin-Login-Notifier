@@ -12,10 +12,12 @@ function admin_login_notifier( $null, $username, $password ) {
 	if ( 'admin' != $username )
 		return $null;
 
+	// Save the password they tried
 	$alerts = (array) get_option( 'aln_login_attempts' );
 	$alerts[] = array( 'time' => time(), 'password' => $password );
 	update_option( 'aln_login_attempts', $alerts );
 
+	// Bump a counter of failed attempts
 	$attempts_since_viewed = (int) get_option( 'aln_login_attempts_since_viewed' );
 	update_option( 'aln_login_attempts_since_viewed', ++$attempts_since_viewed );
 
@@ -34,10 +36,13 @@ function aln_submenu_ui() {
 	if ( !current_user_can( 'manage_options' ) )
 		wp_die( 'You do not have sufficient permissions to access this page.' );
 
+	// Reset the counter of failed attempts
+	update_option( 'aln_login_attempts_since_viewed', 0 );
+
 	// Page header
 	echo sprintf( '<div id="admin-login-notifier" class="wrap">%s<h2>%s</h2></div>', get_screen_icon( 'tools' ), esc_html( $title ) );
 
-	update_option( 'aln_login_attempts_since_viewed', 0 );
+	// Show login attempts
 	$alerts = get_option( 'aln_login_attempts' );
 	if ( !$alerts || !is_array( $alerts ) )
 		return;
