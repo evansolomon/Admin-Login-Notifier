@@ -27,7 +27,7 @@ function admin_login_notifier( $null, $username, $password ) {
 add_filter( 'authenticate', 'admin_login_notifier', 10, 3 );
 
 function aln_submenu() {
-	add_submenu_page( 'tools.php', 'Admin Login Notifier', 'Admin Login Notifier', 'manage_options', 'admin-login-notifier', 'aln_submenu_ui' );
+	add_submenu_page( 'tools.php', __( 'Admin Login Notifier' ), __( 'Admin Login Notifier' ), 'manage_options', 'admin-login-notifier', 'aln_submenu_ui' );
 }
 add_action( 'admin_menu', 'aln_submenu' );
 
@@ -92,13 +92,13 @@ function aln_send_daily_email() {
 		//Now tell them!
 		$email_address = $user[0]->user_email;
 
-		$subject = "Today's admin login attempts";
+		$subject = __( "Today's admin login attempts" );
 
-		$message = "In the last day, someone tried to log into " . esc_url( home_url() ) . " as 'admin' " . esc_html( count( $new_attempts ) ) ." times.\n\n";
-		$message .= "They used the passwords: \n\n";
+		$message = __( "In the last day, someone tried to log into " ) . esc_url( home_url() ) . __( " as 'admin' " ) . esc_html( count( $new_attempts ) ) . __( " times.\n\n" );
+		$message .= __( "They used the passwords:\n\n" );
 		foreach ( $new_attempts as $new_attempt )
 			$message .= esc_html( $new_attempt ) . "\n";
-		$message .= "\nSilly bots!";
+		$message .= __( "\nSilly bots!" );
 
 		$sent = wp_mail( $email_address, $subject, $message );
 
