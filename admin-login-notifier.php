@@ -113,14 +113,14 @@ function aln_send_daily_email() {
 		);
 		$message .= "\n\n";
 
-		$message .= esc_html( __( "They used the passwords:" ) );
+		$message .= esc_html( __( 'They used the passwords:' ) );
 		$message .= "\n\n";
 
 		foreach ( $new_attempts as $new_attempt )
 			$message .= esc_html( $new_attempt ) . "\n";
 
 		$message .= "\n";
-		$message .= esc_html( __( "Silly bots!" ) );
+		$message .= esc_html( __( 'Silly bots!' ) );
 		$message = apply_filters( 'aln_send_daily_email_message', $message );
 
 		$sent = wp_mail( $email_address, $subject, $message );
