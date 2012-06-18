@@ -97,7 +97,11 @@ function aln_send_daily_email() {
 			$message .= "$new_attempt\n";
 		$message .= "\nSilly bots!";
 
-		wp_mail( $email_address, $subject, $message );
+		$sent = wp_mail( $email_address, $subject, $message );
+
+		// Update the since last viewed count
+		if ( $sent )
+			update_option( 'aln_login_attempts_since_viewed', 0 );
 	}
 }
 add_action( 'aln_send_daily_email', 'aln_send_daily_email' );
