@@ -5,6 +5,7 @@ Description: Lots of bots (or just rude people) try to login to WordPress sites 
 Author: evansolomon
 Author URI: http://evansolomon.me
 License: GPLv2 or later
+Version: 2
 */
 
 class Admin_Login_Notifier {
