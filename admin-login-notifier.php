@@ -31,7 +31,7 @@ function aln_submenu() {
 		'tools.php',
 		esc_html( __( 'Admin Login Notifier' ) ),
 		esc_html( __( 'Admin Login Notifier' ) ),
-		'manage_options',
+		apply_filters( 'aln_menu_cap', 'manage_options' ),
 		'admin-login-notifier',
 		'aln_submenu_ui'
 	);
