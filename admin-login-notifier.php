@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Admin Login Notifier
-Description: Let's see what passwords bots try to use when they login as admin.
+Description: Lots of bots (or just rude people) try to login to WordPress sites as the user 'admin'. This plugin records the passwords they use so you can see what sort of nonsense is out there. Mostly it's just fun, but in theory I guess it could inform some sort of real-time security thing. But yea, mostly it's just for fun. By the way, in case you didn't realize it yet, you shouldn't use the username 'admin'.
 Author: evansolomon
 Author URI: http://evansolomon.me
 License: GPLv2 or later
