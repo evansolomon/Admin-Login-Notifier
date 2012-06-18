@@ -9,7 +9,7 @@ License: GPLv2 or later
 
 function admin_login_notifier( $null, $username, $password ) {
 	// Did someone try to log in with admin?
-	if ( 'admin' != $username )
+	if ( apply_filters( 'aln_username', 'admin' ) != $username )
 		return $null;
 
 	// Save the password they tried
@@ -33,7 +33,7 @@ add_action( 'admin_menu', 'aln_submenu' );
 
 function aln_submenu_ui() {
 	global $title;
-	if ( !current_user_can( 'manage_options' ) )
+	if ( !current_user_can( apply_filters( 'aln_cap_level', 'manage_options' ) ) )
 		wp_die( 'You do not have sufficient permissions to access this page.' );
 
 	// Reset the counter of failed attempts
@@ -85,14 +85,14 @@ function aln_send_daily_email() {
 		'number' => 1,
 		'fields' => array( 'user_email' ),
 	);
-	$user = get_users( $user_args );
+	$user = apply_filters( 'aln_send_daily_email_user', get_users( $user_args ) );
 
 	// Make sure we got an email address...
 	if ( $user && $user[0] && $user[0]->user_email && is_email( $user[0]->user_email ) ) {
 		//Now tell them!
-		$email_address = $user[0]->user_email;
+		$email_address = apply_filters( 'aln_send_daily_email_address', $user[0]->user_email );
 
-		$subject = __( "Today's admin login attempts" );
+		$subject = apply_filters( 'aln_send_daily_email_subject', __( "Today's admin login attempts" ) );
 
 		$message = sprintf( __( 'In the last day, someone tried to log into %1$s as "admin" %2$d %3$s.' ),
 			esc_url( home_url() ),
@@ -109,6 +109,7 @@ function aln_send_daily_email() {
 
 		$message .= "\n";
 		$message .= __( "Silly bots!" );
+		$message = apply_filters( 'aln_send_daily_email_message', $message );
 
 		$sent = wp_mail( $email_address, $subject, $message );
 
