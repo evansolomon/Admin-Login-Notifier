@@ -94,7 +94,7 @@ function aln_send_daily_email() {
 
 		$subject = __( "Today's admin login attempts" );
 
-		$message = sprintf( __( "In the last day, someone tried to log into %s as 'admin' %d %s." ),
+		$message = sprintf( __( 'In the last day, someone tried to log into %1$s as "admin" %2$d %3$s.' ),
 			esc_url( home_url() ),
 			number_format_i18n( count( $new_attempts ) ),
 			_n( 'time', 'times', count( $new_attempts ) )
