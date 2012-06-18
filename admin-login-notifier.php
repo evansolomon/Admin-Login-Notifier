@@ -94,17 +94,21 @@ function aln_send_daily_email() {
 
 		$subject = __( "Today's admin login attempts" );
 
-		$message = __( "In the last day, someone tried to log into " );
-		$message .= esc_url( home_url() );
-		$message .= __( " as 'admin' " );
-		$message .= esc_html( number_format_i18n( count( $new_attempts ) ) );
-		$message .= __( " times.\n\n" );
-		$message .= __( "They used the passwords:\n\n" );
+		$message = sprintf( __( "In the last day, someone tried to log into %s as 'admin' %d %s." ),
+			esc_url( home_url() ),
+			number_format_i18n( count( $new_attempts ) ),
+			_n( 'time', 'times', count( $new_attempts ) )
+		);
+		$message .= "\n\n";
+
+		$message .= __( "They used the passwords:" );
+		$message .= "\n\n";
 
 		foreach ( $new_attempts as $new_attempt )
 			$message .= esc_html( $new_attempt ) . "\n";
 
-		$message .= __( "\nSilly bots!" );
+		$message .= "\n";
+		$message .= __( "Silly bots!" );
 
 		$sent = wp_mail( $email_address, $subject, $message );
 
