@@ -35,13 +35,13 @@ function aln_submenu_ui() {
 	echo sprintf( '<div id="admin-login-notifier" class="wrap">%s<h2>%s</h2></div>', get_screen_icon( 'tools' ), esc_html( $title ) );
 
 	$alerts = get_option( 'aln_login_attempts' );
-	if( !$alerts || !is_array( $alerts ) )
+	if ( !$alerts || !is_array( $alerts ) )
 		return;
 
 	echo '<table>';
 	echo '<tr><th>Date</th><th>Password</th></tr>';
-	foreach( $alerts as $alert ) {
-		if( !$alert )
+	foreach ( $alerts as $alert ) {
+		if ( !$alert )
 			continue;
 		echo sprintf( '<tr><td>%s</td><td style="padding-left:30px;">%s</td></tr>', date( 'M d, Y', $alert['time'] ), esc_html( $alert['password'] ) );
 	}
