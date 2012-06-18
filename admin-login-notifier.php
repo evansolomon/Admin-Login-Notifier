@@ -62,7 +62,7 @@ function aln_activation() {
 }
 register_activation_hook( __FILE__, 'aln_activation' );
 
-function aln_deactivation(){
+function aln_deactivation() {
 	wp_clear_scheduled_hook( 'aln_send_daily_email' );
 }
 register_deactivation_hook( __FILE__, 'aln_deactivation' );
