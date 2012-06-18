@@ -68,14 +68,6 @@ function aln_deactivation(){
 register_deactivation_hook( __FILE__, 'aln_deactivation' );
 
 function aln_send_daily_email() {
-	// Who should we tell?
-	$user_args = array(
-		'role'   => 'administrator',
-		'number' => 1,
-		'fields' => array( 'user_email' ),
-	);
-	$user = get_users( $user_args );
-
 	// Get latest updates
 	$aln_login_attempts = get_option( 'aln_login_attempts' );
 	$new_attempts = array();
@@ -83,6 +75,14 @@ function aln_send_daily_email() {
 		if( $attempt['time'] > time() - ( 60 * 60 * 24 ) )
 				$new_attempts[] = $attempt['password'];
 	}
+
+	// Who should we tell?
+	$user_args = array(
+		'role'   => 'administrator',
+		'number' => 1,
+		'fields' => array( 'user_email' ),
+	);
+	$user = get_users( $user_args );
 
 	// Make sure we got an email address...
 	if ( $user && $user[0] && $user[0]->user_email && is_email( $user[0]->user_email ) ) {
