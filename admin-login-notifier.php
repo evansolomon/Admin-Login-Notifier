@@ -32,7 +32,7 @@ function aln_submenu_ui() {
 		wp_die( 'You do not have sufficient permissions to access this page.' );
 
 	// Page header
-	echo sprintf( '<div id="vip-scanner" class="wrap">%s<h2>%s</h2></div>', get_screen_icon( 'tools' ), esc_html( $title ) );
+	echo sprintf( '<div id="admin-login-notifier" class="wrap">%s<h2>%s</h2></div>', get_screen_icon( 'tools' ), esc_html( $title ) );
 
 	$alerts = get_option( 'aln_login_attempts' );
 	if( !$alerts || !is_array( $alerts ) )
