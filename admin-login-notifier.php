@@ -13,8 +13,9 @@ class Admin_Login_Notifier {
 	// Setup hooks
 	function __construct() {
 		// (De)Activation hooks
-		register_activation_hook(   __FILE__, array( $this, 'schedule_cron' ) );
-		register_deactivation_hook( __FILE__, array( $this, 'clear_cron'    ) );
+		register_activation_hook(   __FILE__, array( $this, 'schedule_cron'  ) );
+		register_activation_hook(   __FILE__, array( $this, 'create_options' ) );
+		register_deactivation_hook( __FILE__, array( $this, 'clear_cron'     ) );
 
 		// Hooks
 		add_filter( 'authenticate'        , array( $this, 'check_login_attempt' ) , 10, 3 );
@@ -94,6 +95,11 @@ class Admin_Login_Notifier {
 	// Schedule daily emails to be sent when there are new login attempts
 	function schedule_cron() {
 		return wp_schedule_event( current_time( 'timestamp' ), 'daily',  'aln_send_daily_email' );
+	}
+
+	function create_options() {
+		add_option( 'aln_login_attempts', array(), '', 'no' );
+		add_option( 'aln_login_attempts_since_viewed', array(), '', 'no' );
 	}
 
 	// Remove the scheduled daily email
