@@ -9,6 +9,7 @@ Version: 2
 */
 
 class Admin_Login_Notifier {
+	const version = 2.1;
 
 	// Setup hooks
 	function __construct() {
@@ -16,6 +17,9 @@ class Admin_Login_Notifier {
 		register_activation_hook(   __FILE__, array( $this, 'schedule_cron'  ) );
 		register_activation_hook(   __FILE__, array( $this, 'create_options' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'clear_cron'     ) );
+
+		// Version-specific
+		add_action( 'init', array( $this, 'check_version_update' ) );
 
 		// Hooks
 		add_filter( 'authenticate'        , array( $this, 'check_login_attempt' ) , 10, 3 );
@@ -168,6 +172,24 @@ class Admin_Login_Notifier {
 
 		update_option( 'aln_login_attempts_since_viewed', 0 );
 		return true;
+	}
+
+	function check_version_update() {
+		$current_version = get_option( 'aln_current_version' );
+		if( self::version == $current_version )
+			return;
+
+		// Un-autoload these options
+		$aln_login_attempts = get_option( 'aln_login_attempts' );
+		delete_option( 'aln_login_attempts' );
+		add_option( 'aln_login_attempts', $aln_login_attempts, '', 'no' );
+
+		$aln_login_attempts_since_viewed = get_option( 'aln_login_attempts_since_viewed' );
+		delete_option( 'aln_login_attempts_since_viewed' );
+		add_option( 'aln_login_attempts_since_viewed', $aln_login_attempts_since_viewed, '', 'no' );
+
+		// Set the current version
+		add_option( 'aln_current_version', self::version );
 	}
 }
 
