@@ -156,6 +156,10 @@ class Admin_Login_Notifier {
 		if ( ! $sent )
 			return false;
 
+		// Optionally delete saved attempts once they're emailed
+		if ( ! apply_filters( 'aln_save_all_login_attempts', true ) )
+			delete_option( 'aln_login_attempts' );
+
 		update_option( 'aln_login_attempts_since_viewed', 0 );
 		return true;
 	}
