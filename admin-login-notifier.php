@@ -165,4 +165,4 @@ class Admin_Login_Notifier {
 	}
 }
 
-$admin_login_notifier = new Admin_Login_Notifier;
+new Admin_Login_Notifier;
